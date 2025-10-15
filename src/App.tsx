@@ -9,7 +9,8 @@ import {
   MapPin,
   Phone,
   RefreshCw,
-  Image
+  Image,
+  User
 } from 'lucide-react';
 import { ApprovalSection } from './components/ApprovalSection';
 import { ShippingAddressUpdate } from './components/ShippingAddressUpdate';
@@ -40,6 +41,10 @@ const initialQuoteData = {
   preparedBy: {
     name: "Admin Support",
     email: "sphifer.sv@gmail.com"
+  },
+  estimator: {
+    name: "John Smith",
+    comments: "This quote includes premium brass perforated grilles with satin finish. All items are manufactured to exact specifications. Lead time is approximately 2-3 weeks. Please note that custom sizing may require additional engineering review."
   },
   financials: {
     subtotal: 24400.00,
@@ -456,6 +461,20 @@ function App() {
                     </div>
                   )}
                 </div>
+              </div>
+            </div>
+
+            {/* Estimator Comments Section */}
+            <div className="bg-white rounded-lg shadow-sm border p-6">
+              <div className="flex items-center space-x-2 mb-4">
+                <User className="h-5 w-5 text-blue-600" />
+                <h3 className="text-lg font-semibold text-gray-900">Estimator Comments</h3>
+              </div>
+              
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <p className="text-sm text-blue-800 leading-relaxed">
+                  {quoteData.estimator.comments}
+                </p>
               </div>
             </div>
 
