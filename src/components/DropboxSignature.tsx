@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PenTool, CheckCircle, Download, Share2, FileText } from 'lucide-react';
+import { PenTool, CheckCircle, Download } from 'lucide-react';
 import { SignatureModal } from './SignatureModal';
 
 interface DropboxSignatureProps {
@@ -43,10 +43,6 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
     });
     setIsModalOpen(false);
     setShowSuccess(true);
-
-    setTimeout(() => {
-      onSignatureComplete();
-    }, 2000);
   };
 
   if (showSuccess && signatureData) {
@@ -87,18 +83,10 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
           </div>
 
           <div className="border-t border-green-200 pt-6 mt-6">
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <div className="flex justify-center">
               <button className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-sm">
                 <Download className="h-4 w-4 mr-2" />
                 Download Signed Document
-              </button>
-              <button className="inline-flex items-center justify-center px-6 py-3 bg-white text-gray-700 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium">
-                <Share2 className="h-4 w-4 mr-2" />
-                Share Document
-              </button>
-              <button className="inline-flex items-center justify-center px-6 py-3 bg-white text-gray-700 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium">
-                <FileText className="h-4 w-4 mr-2" />
-                View Details
               </button>
             </div>
           </div>
