@@ -43,6 +43,7 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
     });
     setIsModalOpen(false);
     setShowSuccess(true);
+    onSignatureComplete();
   };
 
   if (showSuccess && signatureData) {

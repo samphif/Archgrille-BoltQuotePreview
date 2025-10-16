@@ -122,9 +122,14 @@ function App() {
   const [lineComments, setLineComments] = useState<LineItemComment[]>([]);
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [tempComment, setTempComment] = useState('');
+  const [isQuoteAccepted, setIsQuoteAccepted] = useState(false);
+
+  const handleQuoteAccepted = () => {
+    setIsQuoteAccepted(true);
+  };
 
   const handleCommentSubmit = async () => {
-    if (!comment.trim()) return;
+    if (!comment.trim() || isQuoteAccepted) return;
     
     setIsSubmittingComment(true);
     // Simulate API call to Salesforce
@@ -184,7 +189,7 @@ function App() {
   };
 
   const handleLineCommentSave = async (lineItemId: number) => {
-    if (!tempComment.trim()) return;
+    if (!tempComment.trim() || isQuoteAccepted) return;
     
     // Remove existing comment for this line item
     const updatedComments = lineComments.filter(c => c.lineItemId !== lineItemId);
@@ -343,7 +348,7 @@ function App() {
                               <div className="flex items-center justify-between">
                                 <span>{formatCurrency(item.totalPrice)}</span>
                                 <div className="ml-3">
-                                  {lineComment ? (
+                                  {!isQuoteAccepted && (lineComment ? (
                                     <button
                                       onClick={() => {
                                         setEditingCommentId(item.id);
@@ -362,6 +367,11 @@ function App() {
                                     >
                                       💬
                                     </button>
+                                  ))}
+                                  {isQuoteAccepted && lineComment && (
+                                    <span className="text-xs text-gray-400 px-2 py-1 rounded border border-gray-200 bg-gray-50" title="Comments disabled - quote accepted">
+                                      💬
+                                    </span>
                                   )}
                                 </div>
                               </div>
@@ -369,7 +379,7 @@ function App() {
                           </tr>
                           
                           {/* Expanded comment editing row */}
-                          {isEditingThis && (
+                          {isEditingThis && !isQuoteAccepted && (
                             <tr className="bg-blue-50">
                               <td className="px-3 py-2"></td>
                               <td colSpan={5} className="px-3 py-2">
@@ -422,7 +432,7 @@ function App() {
 
 
             {/* Digital Signature Section */}
-            <ApprovalSection quoteData={quoteData} />
+            <ApprovalSection quoteData={quoteData} onQuoteAccepted={handleQuoteAccepted} />
           </div>
 
           {/* Sidebar - Quote Summary */}
@@ -495,66 +505,76 @@ function App() {
             <div className="bg-white rounded-lg shadow-sm border p-6 sticky top-8">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Comments Summary</h3>
               
-              {/* Line Item Comments Summary */}
-              <div className="mb-6">
-                <h4 className="text-sm font-medium text-gray-700 mb-2">Line Comments ({lineComments.length})</h4>
-                {lineComments.length > 0 ? (
-                  <div className="space-y-1 max-h-24 overflow-y-auto">
-                    {lineComments.map((lineComment) => (
-                      <div key={lineComment.lineItemId} className="text-xs bg-gray-50 rounded px-2 py-1">
-                        <span className="font-medium text-gray-700">Line {lineComment.lineItemId}:</span> <span className="text-gray-600">{lineComment.comment}</span>
-                      </div>
-                    ))}
-                  </div>
-                ) : null}
-              </div>
-
-              {/* General Comments Section */}
-              <div className="mb-6">
-                <h4 className="text-sm font-medium text-gray-700 mb-2">General Comments</h4>
-                <div>
-                  <textarea
-                    id="comment"
-                    rows={2}
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-sm"
-                    placeholder="Add general comments about the entire quote..."
-                  />
+              {isQuoteAccepted ? (
+                <div className="p-4 bg-gray-50 border border-gray-300 rounded-lg text-center">
+                  <p className="text-sm text-gray-600">
+                    Comments are disabled - quote has been accepted.
+                  </p>
                 </div>
-              </div>
+              ) : (
+                <>
+                  {/* Line Item Comments Summary */}
+                  <div className="mb-6">
+                    <h4 className="text-sm font-medium text-gray-700 mb-2">Line Comments ({lineComments.length})</h4>
+                    {lineComments.length > 0 ? (
+                      <div className="space-y-1 max-h-24 overflow-y-auto">
+                        {lineComments.map((lineComment) => (
+                          <div key={lineComment.lineItemId} className="text-xs bg-gray-50 rounded px-2 py-1">
+                            <span className="font-medium text-gray-700">Line {lineComment.lineItemId}:</span> <span className="text-gray-600">{lineComment.comment}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : null}
+                  </div>
 
-              {/* Important Notice */}
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
-                <div className="flex items-start space-x-2">
-                  <MessageSquare className="h-4 w-4 text-blue-600 mt-0.5" />
-                  <div className="text-xs text-blue-800">
-                    <div className="font-medium mb-1">Comments:</div>
-                    <div className="text-blue-700">
-                      Click 💬 for line-specific comments or add general comments above. All comments are submitted together.
+                  {/* General Comments Section */}
+                  <div className="mb-6">
+                    <h4 className="text-sm font-medium text-gray-700 mb-2">General Comments</h4>
+                    <div>
+                      <textarea
+                        id="comment"
+                        rows={2}
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-sm"
+                        placeholder="Add general comments about the entire quote..."
+                      />
                     </div>
                   </div>
-                </div>
-              </div>
 
-              {/* Submit Button */}
-              <div className="space-y-3">
-                <button
-                  onClick={handleCommentSubmit}
-                  disabled={(!comment.trim() && lineComments.length === 0) || isSubmittingComment}
-                  className="w-full inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
-                >
-                  <MessageSquare className="h-4 w-4 mr-2" />
-                  {isSubmittingComment ? 'Submitting...' : 'Submit Comments'}
-                </button>
-                
-                {commentSubmitted && (
-                  <div className="flex items-center text-green-600 text-sm">
-                    <CheckCircle className="h-4 w-4 mr-2" />
-                    Comments submitted successfully!
+                  {/* Important Notice */}
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+                    <div className="flex items-start space-x-2">
+                      <MessageSquare className="h-4 w-4 text-blue-600 mt-0.5" />
+                      <div className="text-xs text-blue-800">
+                        <div className="font-medium mb-1">Comments:</div>
+                        <div className="text-blue-700">
+                          Click 💬 for line-specific comments or add general comments above. All comments are submitted together.
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                )}
-              </div>
+
+                  {/* Submit Button */}
+                  <div className="space-y-3">
+                    <button
+                      onClick={handleCommentSubmit}
+                      disabled={(!comment.trim() && lineComments.length === 0) || isSubmittingComment}
+                      className="w-full inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
+                    >
+                      <MessageSquare className="h-4 w-4 mr-2" />
+                      {isSubmittingComment ? 'Submitting...' : 'Submit Comments'}
+                    </button>
+                    
+                    {commentSubmitted && (
+                      <div className="flex items-center text-green-600 text-sm">
+                        <CheckCircle className="h-4 w-4 mr-2" />
+                        Comments submitted successfully!
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

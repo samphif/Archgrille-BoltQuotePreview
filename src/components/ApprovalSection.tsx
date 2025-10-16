@@ -13,15 +13,17 @@ interface ApprovalSectionProps {
       grandTotal: number;
     };
   };
+  onQuoteAccepted: () => void;
 }
 
-export const ApprovalSection: React.FC<ApprovalSectionProps> = ({ quoteData }) => {
+export const ApprovalSection: React.FC<ApprovalSectionProps> = ({ quoteData, onQuoteAccepted }) => {
   const [isSigned, setIsSigned] = useState(false);
   const [signedDate, setSignedDate] = useState<Date | null>(null);
 
   const handleSignatureComplete = () => {
     setIsSigned(true);
     setSignedDate(new Date());
+    onQuoteAccepted();
   };
 
   if (isSigned) {
