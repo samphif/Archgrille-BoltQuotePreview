@@ -163,31 +163,38 @@ function App() {
       const file = files[i];
       const fileName = file.name.toLowerCase();
       
-      // Check for dangerous extensions
+      // Check for dangerous file types
       const hasDangerousExtension = dangerousExtensions.some(ext => fileName.endsWith(ext));
       if (hasDangerousExtension) {
-        setFileError(`File "${file.name}" has a dangerous extension and cannot be uploaded.`);
-        return;
+        setFileError(`File "${file.name}" has an unsafe file type and cannot be attached.`);
+        continue;
       }
       
       // Check file size
       if (file.size > maxSizeBytes) {
-        setFileError(`File "${file.name}" is too large. Maximum size is 10MB.`);
-        return;
+        setFileError(`File "${file.name}" exceeds the 10MB size limit.`);
+        continue;
       }
       
       newFiles.push(file);
     }
     
-    setAttachedFiles(prev => [...prev, ...newFiles]);
-    setFileError(null);
+    if (newFiles.length > 0) {
+      setAttachedFiles(prev => [...prev, ...newFiles]);
+      setFileError(null);
+    }
+    
+    // Reset input so the same file can be selected again if removed
+    event.target.value = '';
   };
 
   const handleRemoveFile = (index: number) => {
     setAttachedFiles(prev => prev.filter((_, i) => i !== index));
+    setFileError(null);
   };
 
-  const formatFileSize = (bytes: number) => {
+  const formatFileSize = (bytes: number): string => {
+    if (bytes === 0) return '0 Bytes';
     const k = 1024;
     const sizes = ['Bytes', 'KB', 'MB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
@@ -389,6 +396,7 @@ function App() {
                 </div>
               </div>
 
+
               {/* Status & Prepared By */}
               <div className="text-right space-y-3">
                 <div>
@@ -552,6 +560,7 @@ function App() {
                 </table>
               </div>
             </div>
+
 
             {/* Conditional rendering based on feature flag */}
             {useConsolidated ? (
@@ -736,41 +745,40 @@ function App() {
                       </div>
                     </div>
 
-                    {/* Important Notice */}
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
-                      <div className="flex items-start space-x-2">
-                        <MessageSquare className="h-4 w-4 text-blue-600 mt-0.5" />
-                        <div className="text-xs text-blue-800">
-                          <div className="font-medium mb-1">Comments:</div>
-                          <div className="text-blue-700">
-                            Click 💬 for line comments or add general comments above.
-                          </div>
+                  {/* Important Notice */}
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+                    <div className="flex items-start space-x-2">
+                      <MessageSquare className="h-4 w-4 text-blue-600 mt-0.5" />
+                      <div className="text-xs text-blue-800">
+                        <div className="font-medium mb-1">Comments:</div>
+                        <div className="text-blue-700">
+                          Click 💬 for line comments or add general comments above.
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    {/* Submit Button */}
-                    <div className="space-y-3">
-                      <button
-                        onClick={handleCommentSubmit}
-                        disabled={(!comment.trim() && lineComments.length === 0) || isSubmittingComment}
-                        className="w-full inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
-                      >
-                        <MessageSquare className="h-4 w-4 mr-2" />
-                        {isSubmittingComment ? 'Submitting...' : 'Submit Comments'}
-                      </button>
-                      
-                      {commentSubmitted && (
-                        <div className="flex items-center text-green-600 text-sm">
-                          <CheckCircle className="h-4 w-4 mr-2" />
-                          Comments submitted successfully!
-                        </div>
-                      )}
-                    </div>
-                  </>
-                )}
-              </div>
-            )}
+                  {/* Submit Button */}
+                  <div className="space-y-3">
+                    <button
+                      onClick={handleCommentSubmit}
+                      disabled={(!comment.trim() && lineComments.length === 0) || isSubmittingComment}
+                      className="w-full inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
+                    >
+                      <MessageSquare className="h-4 w-4 mr-2" />
+                      {isSubmittingComment ? 'Submitting...' : 'Submit Comments'}
+                    </button>
+                    
+                    {commentSubmitted && (
+                      <div className="flex items-center text-green-600 text-sm">
+                        <CheckCircle className="h-4 w-4 mr-2" />
+                        Comments submitted successfully!
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
