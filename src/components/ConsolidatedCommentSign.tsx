@@ -40,8 +40,7 @@ export const ConsolidatedCommentSign: React.FC<ConsolidatedCommentSignProps> = (
   onQuoteAccepted
 }) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-6">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">3. Next Steps</h2>
+    <div>
       
       {/* Toggle Selection */}
       <div className="mb-6">

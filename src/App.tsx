@@ -120,7 +120,7 @@ const initialQuoteData = {
 
 function App() {
   const [quoteData, setQuoteData] = useState(initialQuoteData);
-  const useConsolidated = useConsolidatedDesign();
+  const [useConsolidated, setUseConsolidated] = useState(useConsolidatedDesign());
   const [comment, setComment] = useState('');
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
   const [commentSubmitted, setCommentSubmitted] = useState(false);
@@ -136,6 +136,18 @@ function App() {
 
   const handleQuoteAccepted = () => {
     setIsQuoteAccepted(true);
+  };
+
+  const handleDesignSwitch = (useConsolidated: boolean) => {
+    // Reset state when switching designs
+    setUseConsolidated(useConsolidated);
+    if (useConsolidated) {
+      // When switching to consolidated, reset to signature mode
+      setSelectedAction('signature');
+    }
+    // Clear any submitted states when switching
+    setCommentSubmitted(false);
+    setIsQuoteAccepted(false);
   };
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -324,6 +336,45 @@ function App() {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* View Selector */}
+        <div className="bg-white rounded-lg shadow-sm border p-4 mb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-sm font-medium text-gray-900">Design View</h3>
+              <p className="text-xs text-gray-600">Choose between the two UI design options</p>
+            </div>
+            <div className="flex bg-gray-100 rounded-lg p-1">
+              <button
+                onClick={() => handleDesignSwitch(false)}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  !useConsolidated
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Separate Design
+              </button>
+              <button
+                onClick={() => handleDesignSwitch(true)}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  useConsolidated
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                Consolidated Design
+              </button>
+            </div>
+          </div>
+          <div className="mt-3 text-xs text-gray-500">
+            {useConsolidated ? (
+              <span>Comments and signing are combined in a single section with exclusive choice</span>
+            ) : (
+              <span>Comments appear in the sidebar, signature section in the main content area</span>
+            )}
+          </div>
+        </div>
+
         {/* Quote Header */}
         <div className="bg-white rounded-lg shadow-sm border mb-8">
           <div className="bg-blue-600 text-white px-6 py-4 rounded-t-lg">
@@ -513,30 +564,46 @@ function App() {
 
             {/* Conditional rendering based on feature flag */}
             {useConsolidated ? (
-              <ConsolidatedCommentSign
-                selectedAction={selectedAction}
-                setSelectedAction={setSelectedAction}
-                comment={comment}
-                setComment={setComment}
-                lineComments={lineComments}
-                commentSubmitted={commentSubmitted}
-                isSubmittingComment={isSubmittingComment}
-                handleCommentSubmit={handleCommentSubmit}
-                attachedFiles={attachedFiles}
-                fileError={fileError}
-                handleFileSelect={handleFileSelect}
-                handleRemoveFile={handleRemoveFile}
-                formatFileSize={formatFileSize}
-                isQuoteAccepted={isQuoteAccepted}
-                quoteData={quoteData}
-                onQuoteAccepted={handleQuoteAccepted}
-              />
+              <div className="bg-white rounded-lg shadow-sm border p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-semibold text-gray-900">3. Next Steps (Consolidated Design)</h2>
+                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    Exclusive Choice
+                  </span>
+                </div>
+                <ConsolidatedCommentSign
+                  selectedAction={selectedAction}
+                  setSelectedAction={setSelectedAction}
+                  comment={comment}
+                  setComment={setComment}
+                  lineComments={lineComments}
+                  commentSubmitted={commentSubmitted}
+                  isSubmittingComment={isSubmittingComment}
+                  handleCommentSubmit={handleCommentSubmit}
+                  attachedFiles={attachedFiles}
+                  fileError={fileError}
+                  handleFileSelect={handleFileSelect}
+                  handleRemoveFile={handleRemoveFile}
+                  formatFileSize={formatFileSize}
+                  isQuoteAccepted={isQuoteAccepted}
+                  quoteData={quoteData}
+                  onQuoteAccepted={handleQuoteAccepted}
+                />
+              </div>
             ) : (
-              <ApprovalSection 
-                quoteData={quoteData} 
-                onQuoteAccepted={handleQuoteAccepted}
-                commentsSubmitted={false}
-              />
+              <div className="bg-white rounded-lg shadow-sm border p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-semibold text-gray-900">3. Approval (Separate Design)</h2>
+                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    Parallel Actions
+                  </span>
+                </div>
+                <ApprovalSection 
+                  quoteData={quoteData} 
+                  onQuoteAccepted={handleQuoteAccepted}
+                  commentsSubmitted={false}
+                />
+              </div>
             )}
           </div>
 
@@ -589,7 +656,12 @@ function App() {
             {/* Show comments section in sidebar for separate design */}
             {!useConsolidated && (
               <div className="bg-white rounded-lg shadow-sm border p-6 sticky top-8">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Comments Summary</h3>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900">Comments Summary</h3>
+                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    Sidebar
+                  </span>
+                </div>
                 
                 {isQuoteAccepted ? (
                   <div className="p-4 bg-gray-50 border border-gray-300 rounded-lg text-center">
