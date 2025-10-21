@@ -1,7 +1,7 @@
 // Feature flags configuration
 export const FEATURE_FLAGS = {
   // Set to true for consolidated design, false for separate design
-  CONSOLIDATED_COMMENT_SIGN: true,
+  CONSOLIDATED_COMMENT_SIGN: false,
   
   // Environment-based overrides (can be set via environment variables)
   // In production, you can override via env vars or a config service
