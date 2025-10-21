@@ -10,11 +10,14 @@ import {
   Phone,
   RefreshCw,
   Image,
-  User
+  User,
+  Paperclip,
+  X
 } from 'lucide-react';
 import { ApprovalSection } from './components/ApprovalSection';
 import { ShippingAddressUpdate } from './components/ShippingAddressUpdate';
 import { calculatePricing, requiresRecalculation, type PricingCalculation, type ShippingAddress } from './services/pricingCalculator';
+import { uploadCommentAttachments } from './services/salesforceApi';
 
 interface LineItemComment {
   lineItemId: number;
@@ -123,23 +126,93 @@ function App() {
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [tempComment, setTempComment] = useState('');
   const [isQuoteAccepted, setIsQuoteAccepted] = useState(false);
+  const [attachedFiles, setAttachedFiles] = useState<File[]>([]);
+  const [fileError, setFileError] = useState<string | null>(null);
 
   const handleQuoteAccepted = () => {
     setIsQuoteAccepted(true);
+  };
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files) return;
+
+    const dangerousExtensions = ['.exe', '.bat', '.cmd', '.sh', '.app', '.dmg', '.pkg', '.msi', '.dll', '.scr', '.vbs', '.js', '.jar'];
+    const maxSizeBytes = 10 * 1024 * 1024; // 10MB
+
+    const newFiles: File[] = [];
+    
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const fileName = file.name.toLowerCase();
+      
+      // Check for dangerous file types
+      const hasDangerousExtension = dangerousExtensions.some(ext => fileName.endsWith(ext));
+      if (hasDangerousExtension) {
+        setFileError(`File "${file.name}" has an unsafe file type and cannot be attached.`);
+        continue;
+      }
+      
+      // Check file size
+      if (file.size > maxSizeBytes) {
+        setFileError(`File "${file.name}" exceeds the 10MB size limit.`);
+        continue;
+      }
+      
+      newFiles.push(file);
+    }
+    
+    if (newFiles.length > 0) {
+      setAttachedFiles(prev => [...prev, ...newFiles]);
+      setFileError(null);
+    }
+    
+    // Reset input so the same file can be selected again if removed
+    event.target.value = '';
+  };
+
+  const handleRemoveFile = (index: number) => {
+    setAttachedFiles(prev => prev.filter((_, i) => i !== index));
+    setFileError(null);
+  };
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
   };
 
   const handleCommentSubmit = async () => {
     if (!comment.trim() || isQuoteAccepted) return;
     
     setIsSubmittingComment(true);
-    // Simulate API call to Salesforce
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setIsSubmittingComment(false);
-    setCommentSubmitted(true);
-    setComment('');
     
-    // Reset success message after 3 seconds
-    setTimeout(() => setCommentSubmitted(false), 3000);
+    try {
+      // If there are files, upload them along with the comment
+      if (attachedFiles.length > 0) {
+        // In production, this would call the Salesforce API
+        console.log('Uploading files:', attachedFiles);
+        await uploadCommentAttachments(quoteData.quoteNumber, attachedFiles, comment);
+      } else {
+        // Simulate API call to Salesforce for comment-only submission
+        await new Promise(resolve => setTimeout(resolve, 1500));
+      }
+      
+      setIsSubmittingComment(false);
+      setCommentSubmitted(true);
+      setComment('');
+      setAttachedFiles([]);
+      setFileError(null);
+      
+      // Reset success message after 3 seconds
+      setTimeout(() => setCommentSubmitted(false), 3000);
+    } catch (error) {
+      console.error('Failed to submit comment:', error);
+      setIsSubmittingComment(false);
+      setFileError('Failed to submit comment. Please try again.');
+    }
   };
 
   const handleAddressUpdate = async (newAddress: ShippingAddress) => {
@@ -460,17 +533,12 @@ function App() {
                     <span className="text-lg font-bold text-gray-900">{formatCurrency(quoteData.financials.grandTotal)}</span>
                   </div>
                 </div>
-              </div>
-
-              <div className="mt-6 pt-6 border-t">
-                <div className="text-sm text-gray-600">
-                  {lastUpdated && (
-                    <div className="flex items-center mt-2 text-xs text-blue-600">
-                      <RefreshCw className="h-3 w-3 mr-1" />
-                      Pricing updated {lastUpdated.toLocaleDateString()}
-                    </div>
-                  )}
-                </div>
+                {lastUpdated && (
+                  <div className="flex items-center mt-3 text-xs text-blue-600">
+                    <RefreshCw className="h-3 w-3 mr-1" />
+                    Pricing updated {lastUpdated.toLocaleDateString()}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -481,24 +549,9 @@ function App() {
                 <h3 className="text-lg font-semibold text-gray-900">Estimator Comments</h3>
               </div>
               
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <div className="flex items-start space-x-3">
-                  <div className="flex-shrink-0">
-                    <div className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center">
-                      <User className="h-4 w-4 text-blue-600" />
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <span className="font-medium text-blue-900">{quoteData.estimator.name}</span>
-                      <span className="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded-full">Estimator</span>
-                    </div>
-                    <p className="text-sm text-blue-800 leading-relaxed">
-                      {quoteData.estimator.comments}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <p className="text-sm text-gray-700 leading-relaxed">
+                {quoteData.estimator.comments}
+              </p>
             </div>
 
             {/* Comments Summary Section */}
@@ -540,6 +593,50 @@ function App() {
                         placeholder="Add general comments about the entire quote..."
                       />
                     </div>
+                    
+                    {/* File Attachment Section */}
+                    <div className="mt-3">
+                      <label className="inline-flex items-center px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg cursor-pointer text-sm transition-colors">
+                        <Paperclip className="h-4 w-4 mr-2" />
+                        Attach Files
+                        <input
+                          type="file"
+                          multiple
+                          onChange={handleFileSelect}
+                          className="hidden"
+                        />
+                      </label>
+                      <p className="text-xs text-gray-500 mt-1">Max 10MB per file. Executable files not allowed.</p>
+                      
+                      {/* File Error Display */}
+                      {fileError && (
+                        <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded text-xs text-red-700">
+                          {fileError}
+                        </div>
+                      )}
+                      
+                      {/* Attached Files List */}
+                      {attachedFiles.length > 0 && (
+                        <div className="mt-3 space-y-2">
+                          {attachedFiles.map((file, index) => (
+                            <div key={index} className="flex items-center justify-between bg-gray-50 rounded px-3 py-2 text-xs">
+                              <div className="flex items-center space-x-2 flex-1 min-w-0">
+                                <Paperclip className="h-3 w-3 text-gray-400 flex-shrink-0" />
+                                <span className="text-gray-700 truncate">{file.name}</span>
+                                <span className="text-gray-500">({formatFileSize(file.size)})</span>
+                              </div>
+                              <button
+                                onClick={() => handleRemoveFile(index)}
+                                className="ml-2 text-gray-400 hover:text-red-600 flex-shrink-0"
+                                title="Remove file"
+                              >
+                                <X className="h-4 w-4" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   {/* Important Notice */}
@@ -549,7 +646,7 @@ function App() {
                       <div className="text-xs text-blue-800">
                         <div className="font-medium mb-1">Comments:</div>
                         <div className="text-blue-700">
-                          Click 💬 for line-specific comments or add general comments above. All comments are submitted together.
+                          Click 💬 for line comments or add general comments above.
                         </div>
                       </div>
                     </div>
