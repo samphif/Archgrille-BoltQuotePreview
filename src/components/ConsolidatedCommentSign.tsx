@@ -205,11 +205,18 @@ export const ConsolidatedCommentSign: React.FC<ConsolidatedCommentSignProps> = (
 
       {/* Show signature success state */}
       {isQuoteAccepted && (
-        <ApprovalSection 
-          quoteData={quoteData} 
-          onQuoteAccepted={onQuoteAccepted}
-          commentsSubmitted={false}
-        />
+        <div className="bg-white rounded-lg shadow-sm border p-6">
+          <div className="text-center py-8">
+            <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-green-900 mb-2">Quote Accepted!</h3>
+            <p className="text-green-700 mb-4">
+              Thank you for accepting this quote. Your order has been submitted and our team will be in touch shortly.
+            </p>
+            <div className="text-sm text-gray-600 bg-gray-50 rounded-lg p-3 inline-block">
+              <strong>Signed on:</strong> {new Date().toLocaleDateString()} at {new Date().toLocaleTimeString()}
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Show comments submitted state */}
