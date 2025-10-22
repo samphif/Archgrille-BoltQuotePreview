@@ -556,11 +556,8 @@ function App() {
             {/* Conditional rendering based on feature flag */}
             {useConsolidated ? (
               <div className="bg-white rounded-lg shadow-sm border p-6">
-                <div className="flex items-center justify-between mb-4">
+                <div className="mb-4">
                   <h2 className="text-lg font-semibold text-gray-900">3. Next Steps</h2>
-                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                    Exclusive Choice
-                  </span>
                 </div>
                 <ConsolidatedCommentSign
                   selectedAction={selectedAction}
@@ -583,11 +580,8 @@ function App() {
               </div>
             ) : (
               <div className="bg-white rounded-lg shadow-sm border p-6">
-                <div className="flex items-center justify-between mb-4">
+                <div className="mb-4">
                   <h2 className="text-lg font-semibold text-gray-900">3. Approval</h2>
-                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                    Parallel Actions
-                  </span>
                 </div>
                 <ApprovalSection 
                   quoteData={quoteData} 
