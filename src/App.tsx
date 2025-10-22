@@ -641,11 +641,8 @@ function App() {
             {/* Show comments section in sidebar for separate design */}
             {!useConsolidated && (
               <div className="bg-white rounded-lg shadow-sm border p-6 sticky top-8">
-                <div className="flex items-center justify-between mb-4">
+                <div className="mb-4">
                   <h3 className="text-lg font-semibold text-gray-900">Comments Summary</h3>
-                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                    Sidebar
-                  </span>
                 </div>
                 
                 {isQuoteAccepted ? (
