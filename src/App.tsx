@@ -556,15 +556,6 @@ function App() {
                                       💬
                                     </span>
                                   )}
-                                  {!isQuoteAccepted && !quoteExpired && !lineComment && (
-                                    <button
-                                      onClick={() => setEditingCommentId(item.id)}
-                                      className="text-xs text-gray-400 hover:text-blue-600 px-2 py-1 rounded border border-gray-200 hover:border-blue-200 hover:bg-blue-50"
-                                      title="Add comment"
-                                    >
-                                      💬
-                                    </button>
-                                  )}
                                   {!isQuoteAccepted && quoteExpired && !lineComment && (
                                     <span className="text-xs text-gray-400 px-2 py-1 rounded border border-gray-200 bg-gray-50" title="Comments disabled - quote expired">
                                       💬
