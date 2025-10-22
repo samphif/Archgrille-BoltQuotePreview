@@ -31,6 +31,7 @@ interface LineItemComment {
 // Mock data - in real implementation, this would come from Salesforce
 const initialQuoteData = {
   quoteNumber: "857501-Q",
+  createdDate: new Date(),
   status: "Draft",
   customer: {
     name: "Sam Test Account",
@@ -135,6 +136,7 @@ function App() {
   const [fileError, setFileError] = useState<string | null>(null);
 
   const handleQuoteAccepted = () => {
+    if (quoteExpired) return;
     setIsQuoteAccepted(true);
   };
 
@@ -195,7 +197,7 @@ function App() {
   };
 
   const handleCommentSubmit = async () => {
-    if ((!comment.trim() && lineComments.length === 0) || isQuoteAccepted) return;
+    if ((!comment.trim() && lineComments.length === 0) || isQuoteAccepted || quoteExpired) return;
     
     setIsSubmittingComment(true);
     
@@ -274,7 +276,7 @@ function App() {
   };
 
   const handleLineCommentSave = async (lineItemId: number) => {
-    if (!tempComment.trim() || isQuoteAccepted) return;
+    if (!tempComment.trim() || isQuoteAccepted || quoteExpired) return;
     
     // Remove existing comment for this line item
     const updatedComments = lineComments.filter(c => c.lineItemId !== lineItemId);
@@ -314,6 +316,39 @@ function App() {
     return `${address.street}\n${address.city}, ${address.state} ${address.zipCode}\n${address.country}`;
   };
 
+  // Quote expiration logic
+  const getExpirationDate = (createdDate: Date) => {
+    const expirationDate = new Date(createdDate);
+    expirationDate.setDate(expirationDate.getDate() + 30);
+    return expirationDate;
+  };
+
+  const getDaysRemaining = (createdDate: Date) => {
+    const expirationDate = getExpirationDate(createdDate);
+    const today = new Date();
+    const timeDiff = expirationDate.getTime() - today.getTime();
+    return Math.ceil(timeDiff / (1000 * 3600 * 24));
+  };
+
+  const getExpirationStatus = (createdDate: Date) => {
+    const daysRemaining = getDaysRemaining(createdDate);
+    
+    if (daysRemaining >= 4) {
+      return { color: 'green', text: 'Valid', urgency: 'normal' };
+    } else if (daysRemaining >= 1) {
+      return { color: 'yellow', text: 'Expiring Soon', urgency: 'warning' };
+    } else {
+      return { color: 'red', text: 'Expired', urgency: 'critical' };
+    }
+  };
+
+  const isQuoteExpired = (createdDate: Date) => {
+    return getDaysRemaining(createdDate) <= 0;
+  };
+
+  // Check if quote is expired for lockdown functionality
+  const quoteExpired = isQuoteExpired(quoteData.createdDate);
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -337,8 +372,7 @@ function App() {
                 PREVIEW CONTROL
               </div>
               <div>
-                <h3 className="text-sm font-medium text-white">Design View</h3>
-                <p className="text-xs text-gray-300">Choose between the two UI design options</p>
+                <h3 className="text-sm font-medium text-white">Design</h3>
               </div>
             </div>
             <div className="flex bg-slate-700 rounded-lg p-1">
@@ -363,13 +397,6 @@ function App() {
                 Consolidated Design
               </button>
             </div>
-          </div>
-          <div className="mt-3 text-xs text-gray-400">
-            {useConsolidated ? (
-              <span>Comments and signing are combined in a single section with exclusive choice</span>
-            ) : (
-              <span>Comments appear in the sidebar, signature section in the main content area</span>
-            )}
           </div>
         </div>
 
@@ -405,6 +432,34 @@ function App() {
                       Updated {lastUpdated.toLocaleTimeString()}
                     </div>
                   )}
+                </div>
+                
+                {/* Quote Expiration Display */}
+                <div>
+                  {(() => {
+                    const daysRemaining = getDaysRemaining(quoteData.createdDate);
+                    const expirationDate = getExpirationDate(quoteData.createdDate);
+                    
+                    const statusColors = {
+                      green: 'text-green-600',
+                      yellow: 'text-yellow-600',
+                      red: 'text-red-600'
+                    };
+                    
+                    const expirationStatus = getExpirationStatus(quoteData.createdDate);
+                    
+                    return (
+                      <div className="text-xs text-gray-500">
+                        <span className={`font-medium ${statusColors[expirationStatus.color as keyof typeof statusColors]}`}>
+                          {daysRemaining > 0 ? (
+                            <>Valid until {expirationDate.toLocaleDateString()} ({daysRemaining} days left)</>
+                          ) : (
+                            <>Expired on {expirationDate.toLocaleDateString()}</>
+                          )}
+                        </span>
+                      </div>
+                    );
+                  })()}
                 </div>
                 <div className="space-y-2">
                   <h3 className="text-sm font-medium text-gray-600">Prepared By</h3>
@@ -476,7 +531,7 @@ function App() {
                               <div className="flex items-center justify-between">
                                 <span>{formatCurrency(item.totalPrice)}</span>
                                 <div className="ml-3">
-                                  {!isQuoteAccepted && (lineComment ? (
+                                  {!isQuoteAccepted && !quoteExpired && (lineComment ? (
                                     <button
                                       onClick={() => {
                                         setEditingCommentId(item.id);
@@ -496,8 +551,22 @@ function App() {
                                       💬
                                     </button>
                                   ))}
-                                  {isQuoteAccepted && lineComment && (
-                                    <span className="text-xs text-gray-400 px-2 py-1 rounded border border-gray-200 bg-gray-50" title="Comments disabled - quote accepted">
+                                  {(isQuoteAccepted || quoteExpired) && lineComment && (
+                                    <span className="text-xs text-gray-400 px-2 py-1 rounded border border-gray-200 bg-gray-50" title={quoteExpired ? "Comments disabled - quote expired" : "Comments disabled - quote accepted"}>
+                                      💬
+                                    </span>
+                                  )}
+                                  {!isQuoteAccepted && !quoteExpired && !lineComment && (
+                                    <button
+                                      onClick={() => setEditingCommentId(item.id)}
+                                      className="text-xs text-gray-400 hover:text-blue-600 px-2 py-1 rounded border border-gray-200 hover:border-blue-200 hover:bg-blue-50"
+                                      title="Add comment"
+                                    >
+                                      💬
+                                    </button>
+                                  )}
+                                  {!isQuoteAccepted && quoteExpired && !lineComment && (
+                                    <span className="text-xs text-gray-400 px-2 py-1 rounded border border-gray-200 bg-gray-50" title="Comments disabled - quote expired">
                                       💬
                                     </span>
                                   )}
@@ -507,7 +576,7 @@ function App() {
                           </tr>
                           
                           {/* Expanded comment editing row */}
-                          {isEditingThis && !isQuoteAccepted && (
+                          {isEditingThis && !isQuoteAccepted && !quoteExpired && (
                             <tr className="bg-blue-50">
                               <td className="px-3 py-2"></td>
                               <td colSpan={5} className="px-3 py-2">
@@ -581,6 +650,7 @@ function App() {
                   isQuoteAccepted={isQuoteAccepted}
                   quoteData={quoteData}
                   onQuoteAccepted={handleQuoteAccepted}
+                  quoteExpired={quoteExpired}
                 />
               </div>
             ) : (
@@ -650,10 +720,10 @@ function App() {
                   <h3 className="text-lg font-semibold text-gray-900">Comments Summary</h3>
                 </div>
                 
-                {isQuoteAccepted ? (
+                {isQuoteAccepted || quoteExpired ? (
                   <div className="p-4 bg-gray-50 border border-gray-300 rounded-lg text-center">
                     <p className="text-sm text-gray-600">
-                      Comments are disabled - quote has been accepted.
+                      {quoteExpired ? "Comments are disabled - quote has expired." : "Comments are disabled - quote has been accepted."}
                     </p>
                   </div>
                 ) : (
@@ -749,7 +819,7 @@ function App() {
                     <div className="space-y-3">
                       <button
                         onClick={handleCommentSubmit}
-                        disabled={(!comment.trim() && lineComments.length === 0) || isSubmittingComment}
+                        disabled={(!comment.trim() && lineComments.length === 0) || isSubmittingComment || quoteExpired}
                         className="w-full inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
                       >
                         <MessageSquare className="h-4 w-4 mr-2" />

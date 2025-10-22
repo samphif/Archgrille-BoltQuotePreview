@@ -19,6 +19,7 @@ interface ConsolidatedCommentSignProps {
   isQuoteAccepted: boolean;
   quoteData: any;
   onQuoteAccepted: () => void;
+  quoteExpired: boolean;
 }
 
 export const ConsolidatedCommentSign: React.FC<ConsolidatedCommentSignProps> = ({
@@ -37,8 +38,29 @@ export const ConsolidatedCommentSign: React.FC<ConsolidatedCommentSignProps> = (
   formatFileSize,
   isQuoteAccepted,
   quoteData,
-  onQuoteAccepted
+  onQuoteAccepted,
+  quoteExpired
 }) => {
+  // Show expired message if quote is expired
+  if (quoteExpired) {
+    return (
+      <div className="bg-white rounded-lg shadow-sm border p-6">
+        <div className="text-center py-8">
+          <div className="h-16 w-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="text-2xl">⏰</span>
+          </div>
+          <h3 className="text-xl font-semibold text-red-900 mb-2">Quote Expired</h3>
+          <p className="text-red-700 mb-4">
+            This quote is no longer valid. Please contact us for a new quote.
+          </p>
+          <div className="text-sm text-gray-600 bg-gray-50 rounded-lg p-3 inline-block">
+            <strong>Quote expired:</strong> All actions are disabled
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       
@@ -177,7 +199,7 @@ export const ConsolidatedCommentSign: React.FC<ConsolidatedCommentSignProps> = (
           <div className="space-y-3">
             <button
               onClick={handleCommentSubmit}
-              disabled={(!comment.trim() && lineComments.length === 0) || isSubmittingComment}
+              disabled={(!comment.trim() && lineComments.length === 0) || isSubmittingComment || quoteExpired}
               className="w-full inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
             >
               <MessageSquare className="h-4 w-4 mr-2" />
