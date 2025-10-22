@@ -65,9 +65,7 @@ export const ApprovalSection: React.FC<ApprovalSectionProps> = ({ quoteData, onQ
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-6">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">3. Approval</h2>
-      
+    <div>
       <DropboxSignature 
         quoteData={quoteData}
         onSignatureComplete={handleSignatureComplete}

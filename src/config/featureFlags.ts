@@ -6,7 +6,7 @@ export const FEATURE_FLAGS = {
   // Environment-based overrides (can be set via environment variables)
   // In production, you can override via env vars or a config service
   get CONSOLIDATED_DESIGN() {
-    return process.env.REACT_APP_CONSOLIDATED_DESIGN === 'true' || this.CONSOLIDATED_COMMENT_SIGN;
+    return this.CONSOLIDATED_COMMENT_SIGN;
   }
 };
 
