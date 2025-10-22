@@ -1,6 +1,6 @@
 import React from 'react';
 import { ApprovalSection } from './ApprovalSection';
-import { MessageSquare, CheckCircle, Paperclip, X } from 'lucide-react';
+import { MessageSquare, CheckCircle, Paperclip, X, Edit3, PenTool } from 'lucide-react';
 
 interface ConsolidatedCommentSignProps {
   selectedAction: 'comments' | 'signature';
@@ -43,34 +43,45 @@ export const ConsolidatedCommentSign: React.FC<ConsolidatedCommentSignProps> = (
     <div>
       
       {/* Toggle Selection */}
-      <div className="mb-6">
-        <p className="text-sm text-gray-600 mb-4">
-          Choose to either request changes by submitting comments, or accept the quote by signing.
-        </p>
+              <div className="mb-6">
+                <p className="text-sm text-gray-600 mb-4">
+                  Choose one option below
+                </p>
         <div className="flex bg-gray-100 rounded-lg p-1">
-          <button
-            onClick={() => setSelectedAction('comments')}
-            className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-              selectedAction === 'comments'
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
-            disabled={commentSubmitted}
-          >
-            Submit Comments for Review
-          </button>
-          <button
-            onClick={() => setSelectedAction('signature')}
-            className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-              selectedAction === 'signature'
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
-            disabled={commentSubmitted}
-          >
-            Sign & Accept Quote
-          </button>
+                  <button
+                    onClick={() => setSelectedAction('comments')}
+                    className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                      selectedAction === 'comments'
+                        ? 'bg-white text-gray-900 shadow-sm'
+                        : 'text-gray-500 hover:text-gray-700'
+                    }`}
+                    disabled={commentSubmitted}
+                  >
+                    <div className="flex items-center justify-center space-x-2">
+                      <Edit3 className="h-4 w-4" />
+                      <span>Request Changes</span>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => setSelectedAction('signature')}
+                    className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                      selectedAction === 'signature'
+                        ? 'bg-white text-gray-900 shadow-sm'
+                        : 'text-gray-500 hover:text-gray-700'
+                    }`}
+                    disabled={commentSubmitted}
+                  >
+                    <div className="flex items-center justify-center space-x-2">
+                      <PenTool className="h-4 w-4" />
+                      <span>Accept Quote</span>
+                    </div>
+                  </button>
         </div>
+        {selectedAction === 'signature' && (
+          <p className="text-xs text-gray-500 mt-2 text-center">
+            Requires digital signature
+          </p>
+        )}
       </div>
 
       {/* Comments Interface */}
@@ -78,7 +89,7 @@ export const ConsolidatedCommentSign: React.FC<ConsolidatedCommentSignProps> = (
         <div className="space-y-6">
           {/* Line Item Comments Summary */}
           <div>
-            <h4 className="text-sm font-medium text-gray-700 mb-3">Line Comments ({lineComments.length})</h4>
+            <h4 className="text-sm font-medium text-gray-700 mb-3">Line Comments</h4>
             {lineComments.length > 0 ? (
               <div className="space-y-2 max-h-32 overflow-y-auto bg-gray-50 rounded-lg p-3">
                 {lineComments.map((lineComment) => (
@@ -96,7 +107,7 @@ export const ConsolidatedCommentSign: React.FC<ConsolidatedCommentSignProps> = (
 
           {/* General Comments Section */}
           <div>
-            <h4 className="text-sm font-medium text-gray-700 mb-3">General Comments</h4>
+            <h4 className="text-sm font-medium text-gray-700 mb-3">Comments</h4>
             <div>
               <textarea
                 id="comment"
@@ -111,7 +122,7 @@ export const ConsolidatedCommentSign: React.FC<ConsolidatedCommentSignProps> = (
 
           {/* File Attachment Section */}
           <div>
-            <h4 className="text-sm font-medium text-gray-700 mb-3">Attach Files (Optional)</h4>
+            <h4 className="text-sm font-medium text-gray-700 mb-3">Attach Files</h4>
             <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
               <input
                 type="file"
@@ -155,9 +166,8 @@ export const ConsolidatedCommentSign: React.FC<ConsolidatedCommentSignProps> = (
             <div className="flex items-start space-x-2">
               <MessageSquare className="h-4 w-4 text-blue-600 mt-0.5" />
               <div className="text-xs text-blue-800">
-                <div className="font-medium mb-1">Comments:</div>
                 <div className="text-blue-700">
-                  Click 💬 for line-specific comments or add general comments above. All comments are submitted together.
+                  Use 💬 buttons in the table above for line-specific comments.
                 </div>
               </div>
             </div>
