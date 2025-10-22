@@ -54,10 +54,10 @@ const initialQuoteData = {
     comments: "This quote includes premium brass perforated grilles with satin finish. All items are manufactured to exact specifications. Lead time is approximately 2-3 weeks. Please note that custom sizing may require additional engineering review."
   },
   financials: {
-    subtotal: 24400.00,
-    tax: 2165.50,
+    subtotal: 682142.00,
+    tax: 60540.10,
     freight: 0.00,
-    grandTotal: 26565.50
+    grandTotal: 742682.10
   },
   lineItems: [
     {
@@ -115,6 +115,590 @@ const initialQuoteData = {
       quantity: 1,
       unitPrice: 12212.00,
       totalPrice: 12212.00
+    },
+    {
+      id: 8,
+      product: "Perforated Grilles",
+      description: "26 H* X 80 L→ (in inches) Brass 14ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 2255.00,
+      totalPrice: 2255.00
+    },
+    {
+      id: 9,
+      product: "Perforated Grilles",
+      description: "27 H* X 80 L→ (in inches) Brass 14ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 2319.00,
+      totalPrice: 2319.00
+    },
+    {
+      id: 10,
+      product: "Perforated Grilles",
+      description: "28 H* X 80 L→ (in inches) Brass 14ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 2383.00,
+      totalPrice: 2383.00
+    },
+    {
+      id: 11,
+      product: "Perforated Grilles",
+      description: "29 H* X 80 L→ (in inches) Brass 14ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 2447.00,
+      totalPrice: 2447.00
+    },
+    {
+      id: 12,
+      product: "Perforated Grilles",
+      description: "30 H* X 80 L→ (in inches) Brass 14ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 2511.00,
+      totalPrice: 2511.00
+    },
+    {
+      id: 13,
+      product: "Bar Grilles",
+      description: "14 H* X 20 L→ (in inches) Stainless with Satin Finish, No Mounting Requested\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 14500.00,
+      totalPrice: 14500.00
+    },
+    {
+      id: 14,
+      product: "Bar Grilles",
+      description: "16 H* X 24 L→ (in inches) Stainless with Satin Finish, No Mounting Requested\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 16800.00,
+      totalPrice: 16800.00
+    },
+    {
+      id: 15,
+      product: "Perforated Grilles",
+      description: "18 H* X 60 L→ (in inches) Aluminum 16ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Wall",
+      quantity: 1,
+      unitPrice: 1245.00,
+      totalPrice: 1245.00
+    },
+    {
+      id: 16,
+      product: "Perforated Grilles",
+      description: "19 H* X 60 L→ (in inches) Aluminum 16ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Wall",
+      quantity: 1,
+      unitPrice: 1289.00,
+      totalPrice: 1289.00
+    },
+    {
+      id: 17,
+      product: "Perforated Grilles",
+      description: "20 H* X 60 L→ (in inches) Aluminum 16ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Wall",
+      quantity: 1,
+      unitPrice: 1333.00,
+      totalPrice: 1333.00
+    },
+    {
+      id: 18,
+      product: "Perforated Grilles",
+      description: "21 H* X 60 L→ (in inches) Aluminum 16ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Wall",
+      quantity: 1,
+      unitPrice: 1377.00,
+      totalPrice: 1377.00
+    },
+    {
+      id: 19,
+      product: "Perforated Grilles",
+      description: "22 H* X 60 L→ (in inches) Aluminum 16ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Wall",
+      quantity: 1,
+      unitPrice: 1421.00,
+      totalPrice: 1421.00
+    },
+    {
+      id: 20,
+      product: "Perforated Grilles",
+      description: "23 H* X 60 L→ (in inches) Aluminum 16ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Wall",
+      quantity: 1,
+      unitPrice: 1465.00,
+      totalPrice: 1465.00
+    },
+    {
+      id: 21,
+      product: "Bar Grilles",
+      description: "18 H* X 28 L→ (in inches) Stainless with Satin Finish, No Mounting Requested\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 19200.00,
+      totalPrice: 19200.00
+    },
+    {
+      id: 22,
+      product: "Bar Grilles",
+      description: "20 H* X 32 L→ (in inches) Stainless with Satin Finish, No Mounting Requested\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 21600.00,
+      totalPrice: 21600.00
+    },
+    {
+      id: 23,
+      product: "Perforated Grilles",
+      description: "24 H* X 60 L→ (in inches) Aluminum 16ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Wall",
+      quantity: 1,
+      unitPrice: 1509.00,
+      totalPrice: 1509.00
+    },
+    {
+      id: 24,
+      product: "Perforated Grilles",
+      description: "25 H* X 60 L→ (in inches) Aluminum 16ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Wall",
+      quantity: 1,
+      unitPrice: 1553.00,
+      totalPrice: 1553.00
+    },
+    {
+      id: 25,
+      product: "Perforated Grilles",
+      description: "26 H* X 60 L→ (in inches) Aluminum 16ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Wall",
+      quantity: 1,
+      unitPrice: 1597.00,
+      totalPrice: 1597.00
+    },
+    {
+      id: 26,
+      product: "Perforated Grilles",
+      description: "27 H* X 60 L→ (in inches) Aluminum 16ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Wall",
+      quantity: 1,
+      unitPrice: 1641.00,
+      totalPrice: 1641.00
+    },
+    {
+      id: 27,
+      product: "Perforated Grilles",
+      description: "28 H* X 60 L→ (in inches) Aluminum 16ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Wall",
+      quantity: 1,
+      unitPrice: 1685.00,
+      totalPrice: 1685.00
+    },
+    {
+      id: 28,
+      product: "Perforated Grilles",
+      description: "29 H* X 60 L→ (in inches) Aluminum 16ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Wall",
+      quantity: 1,
+      unitPrice: 1729.00,
+      totalPrice: 1729.00
+    },
+    {
+      id: 29,
+      product: "Perforated Grilles",
+      description: "30 H* X 60 L→ (in inches) Aluminum 16ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Wall",
+      quantity: 1,
+      unitPrice: 1773.00,
+      totalPrice: 1773.00
+    },
+    {
+      id: 30,
+      product: "Bar Grilles",
+      description: "22 H* X 36 L→ (in inches) Stainless with Satin Finish, No Mounting Requested\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 24000.00,
+      totalPrice: 24000.00
+    },
+    {
+      id: 31,
+      product: "Bar Grilles",
+      description: "24 H* X 40 L→ (in inches) Stainless with Satin Finish, No Mounting Requested\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 26400.00,
+      totalPrice: 26400.00
+    },
+    {
+      id: 32,
+      product: "Perforated Grilles",
+      description: "15 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 890.00,
+      totalPrice: 890.00
+    },
+    {
+      id: 33,
+      product: "Perforated Grilles",
+      description: "16 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 920.00,
+      totalPrice: 920.00
+    },
+    {
+      id: 34,
+      product: "Perforated Grilles",
+      description: "17 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 950.00,
+      totalPrice: 950.00
+    },
+    {
+      id: 35,
+      product: "Perforated Grilles",
+      description: "18 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 980.00,
+      totalPrice: 980.00
+    },
+    {
+      id: 36,
+      product: "Perforated Grilles",
+      description: "19 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1010.00,
+      totalPrice: 1010.00
+    },
+    {
+      id: 37,
+      product: "Perforated Grilles",
+      description: "20 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1040.00,
+      totalPrice: 1040.00
+    },
+    {
+      id: 38,
+      product: "Bar Grilles",
+      description: "26 H* X 44 L→ (in inches) Stainless with Satin Finish, No Mounting Requested\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 28800.00,
+      totalPrice: 28800.00
+    },
+    {
+      id: 39,
+      product: "Bar Grilles",
+      description: "28 H* X 48 L→ (in inches) Stainless with Satin Finish, No Mounting Requested\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 31200.00,
+      totalPrice: 31200.00
+    },
+    {
+      id: 40,
+      product: "Perforated Grilles",
+      description: "21 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1070.00,
+      totalPrice: 1070.00
+    },
+    {
+      id: 41,
+      product: "Perforated Grilles",
+      description: "22 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1100.00,
+      totalPrice: 1100.00
+    },
+    {
+      id: 42,
+      product: "Perforated Grilles",
+      description: "23 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1130.00,
+      totalPrice: 1130.00
+    },
+    {
+      id: 43,
+      product: "Perforated Grilles",
+      description: "24 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1160.00,
+      totalPrice: 1160.00
+    },
+    {
+      id: 44,
+      product: "Perforated Grilles",
+      description: "25 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1190.00,
+      totalPrice: 1190.00
+    },
+    {
+      id: 45,
+      product: "Perforated Grilles",
+      description: "26 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1220.00,
+      totalPrice: 1220.00
+    },
+    {
+      id: 46,
+      product: "Perforated Grilles",
+      description: "27 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1250.00,
+      totalPrice: 1250.00
+    },
+    {
+      id: 47,
+      product: "Bar Grilles",
+      description: "30 H* X 52 L→ (in inches) Stainless with Satin Finish, No Mounting Requested\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 33600.00,
+      totalPrice: 33600.00
+    },
+    {
+      id: 48,
+      product: "Bar Grilles",
+      description: "32 H* X 56 L→ (in inches) Stainless with Satin Finish, No Mounting Requested\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 36000.00,
+      totalPrice: 36000.00
+    },
+    {
+      id: 49,
+      product: "Perforated Grilles",
+      description: "28 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1280.00,
+      totalPrice: 1280.00
+    },
+    {
+      id: 50,
+      product: "Perforated Grilles",
+      description: "29 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1310.00,
+      totalPrice: 1310.00
+    },
+    {
+      id: 51,
+      product: "Perforated Grilles",
+      description: "30 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1340.00,
+      totalPrice: 1340.00
+    },
+    {
+      id: 52,
+      product: "Perforated Grilles",
+      description: "31 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1370.00,
+      totalPrice: 1370.00
+    },
+    {
+      id: 53,
+      product: "Perforated Grilles",
+      description: "32 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1400.00,
+      totalPrice: 1400.00
+    },
+    {
+      id: 54,
+      product: "Perforated Grilles",
+      description: "33 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1430.00,
+      totalPrice: 1430.00
+    },
+    {
+      id: 55,
+      product: "Bar Grilles",
+      description: "34 H* X 60 L→ (in inches) Stainless with Satin Finish, No Mounting Requested\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 38400.00,
+      totalPrice: 38400.00
+    },
+    {
+      id: 56,
+      product: "Bar Grilles",
+      description: "36 H* X 64 L→ (in inches) Stainless with Satin Finish, No Mounting Requested\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 40800.00,
+      totalPrice: 40800.00
+    },
+    {
+      id: 57,
+      product: "Perforated Grilles",
+      description: "34 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1460.00,
+      totalPrice: 1460.00
+    },
+    {
+      id: 58,
+      product: "Perforated Grilles",
+      description: "35 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1490.00,
+      totalPrice: 1490.00
+    },
+    {
+      id: 59,
+      product: "Perforated Grilles",
+      description: "36 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1520.00,
+      totalPrice: 1520.00
+    },
+    {
+      id: 60,
+      product: "Perforated Grilles",
+      description: "37 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1550.00,
+      totalPrice: 1550.00
+    },
+    {
+      id: 61,
+      product: "Perforated Grilles",
+      description: "38 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1580.00,
+      totalPrice: 1580.00
+    },
+    {
+      id: 62,
+      product: "Perforated Grilles",
+      description: "39 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1610.00,
+      totalPrice: 1610.00
+    },
+    {
+      id: 63,
+      product: "Perforated Grilles",
+      description: "40 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1640.00,
+      totalPrice: 1640.00
+    },
+    {
+      id: 64,
+      product: "Bar Grilles",
+      description: "38 H* X 68 L→ (in inches) Stainless with Satin Finish, No Mounting Requested\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 43200.00,
+      totalPrice: 43200.00
+    },
+    {
+      id: 65,
+      product: "Bar Grilles",
+      description: "40 H* X 72 L→ (in inches) Stainless with Satin Finish, No Mounting Requested\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 45600.00,
+      totalPrice: 45600.00
+    },
+    {
+      id: 66,
+      product: "Perforated Grilles",
+      description: "41 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1670.00,
+      totalPrice: 1670.00
+    },
+    {
+      id: 67,
+      product: "Perforated Grilles",
+      description: "42 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1700.00,
+      totalPrice: 1700.00
+    },
+    {
+      id: 68,
+      product: "Perforated Grilles",
+      description: "43 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1730.00,
+      totalPrice: 1730.00
+    },
+    {
+      id: 69,
+      product: "Perforated Grilles",
+      description: "44 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1760.00,
+      totalPrice: 1760.00
+    },
+    {
+      id: 70,
+      product: "Perforated Grilles",
+      description: "45 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1790.00,
+      totalPrice: 1790.00
+    },
+    {
+      id: 71,
+      product: "Perforated Grilles",
+      description: "46 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1820.00,
+      totalPrice: 1820.00
+    },
+    {
+      id: 72,
+      product: "Perforated Grilles",
+      description: "47 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1850.00,
+      totalPrice: 1850.00
+    },
+    {
+      id: 73,
+      product: "Bar Grilles",
+      description: "42 H* X 76 L→ (in inches) Stainless with Satin Finish, No Mounting Requested\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 48000.00,
+      totalPrice: 48000.00
+    },
+    {
+      id: 74,
+      product: "Bar Grilles",
+      description: "44 H* X 80 L→ (in inches) Stainless with Satin Finish, No Mounting Requested\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 50400.00,
+      totalPrice: 50400.00
+    },
+    {
+      id: 75,
+      product: "Perforated Grilles",
+      description: "48 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1880.00,
+      totalPrice: 1880.00
+    },
+    {
+      id: 76,
+      product: "Perforated Grilles",
+      description: "49 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1910.00,
+      totalPrice: 1910.00
+    },
+    {
+      id: 77,
+      product: "Perforated Grilles",
+      description: "50 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1940.00,
+      totalPrice: 1940.00
+    },
+    {
+      id: 78,
+      product: "Perforated Grilles",
+      description: "51 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 1970.00,
+      totalPrice: 1970.00
+    },
+    {
+      id: 79,
+      product: "Perforated Grilles",
+      description: "52 H* X 40 L→ (in inches) Steel 18ga with Satin Finish, 609 Perforated grille with snap in catches\nRequested Border of 1 X 1\nGrille installation location: Floor",
+      quantity: 1,
+      unitPrice: 2000.00,
+      totalPrice: 2000.00
+    },
+    {
+      id: 80,
+      product: "Bar Grilles",
+      description: "46 H* X 84 L→ (in inches) Stainless with Satin Finish, No Mounting Requested\nGrille installation location: Ceiling",
+      quantity: 1,
+      unitPrice: 52800.00,
+      totalPrice: 52800.00
     }
   ]
 };
