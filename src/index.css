@@ -17,4 +17,8 @@
   .animate-fadeIn {
     animation: fadeIn 0.4s ease-out;
   }
+
+  .font-cursive {
+    font-family: 'Brush Script MT', cursive;
+  }
 }
