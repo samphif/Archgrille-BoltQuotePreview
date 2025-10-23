@@ -176,7 +176,7 @@ export const Step3ApprovalChoice: React.FC<Step3ApprovalChoiceProps> = ({
               onClick={() => setStep3Choice(null)}
               className="text-sm text-archgrille-primary hover:text-[#3a4556]"
             >
-              ← Back to choices
+              ← Back
             </button>
           </div>
         </div>
@@ -195,7 +195,7 @@ export const Step3ApprovalChoice: React.FC<Step3ApprovalChoiceProps> = ({
               </div>
             ) : (
               <div className="text-xs text-gray-500 bg-gray-50 rounded-lg p-3">
-                Use the 💬 buttons in the table to the left to add comments to line items.
+                Use the <MessageSquare className="inline h-3 w-3" /> buttons in the table to the left to add comments to line items.
               </div>
             )}
           </div>
