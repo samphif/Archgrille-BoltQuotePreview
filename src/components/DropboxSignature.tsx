@@ -32,6 +32,8 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
   } | null>(null);
   const [comments, setComments] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [techConsiderationsAccepted, setTechConsiderationsAccepted] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.target as HTMLDivElement;
@@ -257,6 +259,21 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
                     
                     <p className="text-xs font-medium">PLEASE KEEP THIS QUOTE NUMBER ON ALL PURCHASE ORDER AND STATUS REQUEST EMAILS AS YOUR JOB REFERENCE</p>
                   </div>
+                  
+                  {/* Technical Considerations Checkbox */}
+                  <div className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                    <label className="flex items-start space-x-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={techConsiderationsAccepted}
+                        onChange={(e) => setTechConsiderationsAccepted(e.target.checked)}
+                        className="mt-1 h-4 w-4 text-archgrille-primary focus:ring-archgrille-primary border-gray-300 rounded accent-archgrille-primary"
+                      />
+                      <span className="text-sm text-gray-700">
+                        I have read and agree to the Technical Considerations outlined above.
+                      </span>
+                    </label>
+                  </div>
                 </div>
 
                 {/* Terms and Conditions */}
@@ -265,9 +282,24 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
                   <p className="text-sm text-gray-800">
                     Standard Terms: Payment terms require 1/3 deposit for orders over $1000, with balance due upon completion. Custom orders are non-refundable. Prices valid for 30 days. Changes to delivery address may incur additional fees. See full terms on our website or contact us for details.
                   </p>
+                  
+                  {/* Terms and Conditions Checkbox */}
+                  <div className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                    <label className="flex items-start space-x-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={termsAccepted}
+                        onChange={(e) => setTermsAccepted(e.target.checked)}
+                        className="mt-1 h-4 w-4 text-archgrille-primary focus:ring-archgrille-primary border-gray-300 rounded accent-archgrille-primary"
+                      />
+                      <span className="text-sm text-gray-700">
+                        I have read and agree to the Terms and Conditions outlined above.
+                      </span>
+                    </label>
+                  </div>
                 </div>
 
-                {/* Signature Section - appears when scrolled to bottom */}
+                {/* Signature Section - always visible after scroll */}
                 {hasScrolledToBottom && (
                   <div className="border-t border-gray-200 pt-8">
                     
@@ -290,9 +322,20 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
 
                     {/* Submit Button */}
                     <div className="mt-6">
+                      {/* Requirements Helper Text */}
+                      {(!techConsiderationsAccepted || !termsAccepted) && (
+                        <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                          <p className="text-sm text-yellow-800">
+                            <strong>Required:</strong> Please check both agreement boxes above to submit your signature.
+                            {!techConsiderationsAccepted && <span className="block mt-1">• Technical Considerations agreement required</span>}
+                            {!termsAccepted && <span className="block mt-1">• Terms and Conditions agreement required</span>}
+                          </p>
+                        </div>
+                      )}
+                      
                       <button
                         onClick={handleSubmitSignatureAndComments}
-                        disabled={!signatureData || isSubmitting || !hasScrolledToBottom}
+                        disabled={!signatureData || isSubmitting || !hasScrolledToBottom || !techConsiderationsAccepted || !termsAccepted}
                         className="w-full bg-archgrille-primary text-white py-3 px-6 font-semibold hover:bg-[#3a4556] disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2 shadow-sm"
                       >
                         {isSubmitting ? (
