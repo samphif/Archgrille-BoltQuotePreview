@@ -120,22 +120,22 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
             <div className="h-full flex flex-col">
               <div className="flex-1 flex items-center justify-center p-8">
                 <div className="max-w-2xl mx-auto text-center">
-                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl p-8 shadow-lg">
+                  <div className="bg-archgrille-secondary border-2 border-gray-200 p-8 shadow-lg">
                     <div className="flex justify-center mb-4">
-                      <div className="bg-green-100 rounded-full p-3">
-                        <CheckCircle className="h-12 w-12 text-green-600" />
+                      <div className="bg-gray-200 rounded-full p-3">
+                        <CheckCircle className="h-12 w-12 text-white" />
                       </div>
                     </div>
 
-                    <h3 className="text-2xl font-bold text-green-900 mb-2">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
                       Document Successfully Signed!
                     </h3>
 
-                    <p className="text-green-700 mb-4">
+                    <p className="text-gray-700 mb-4">
                       Your digital signature has been applied and the document is now complete.
                     </p>
 
-                    <div className="bg-white border border-green-200 rounded-lg p-4 mb-6 inline-block">
+                    <div className="bg-white border border-gray-200 p-4 mb-6 inline-block">
                       <div className="text-sm text-gray-600 mb-1">Signed by</div>
                       <div className="font-semibold text-gray-900 mb-1">{quoteData.customer.name}</div>
                       <div className="text-xs text-gray-500">
@@ -154,9 +154,9 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
                       </div>
                     </div>
 
-                    <div className="border-t border-green-200 pt-6 mt-6">
+                    <div className="border-t border-gray-200 pt-6 mt-6">
                       <div className="flex justify-center">
-                        <button className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-sm">
+                        <button className="inline-flex items-center justify-center px-6 py-3 bg-archgrille-primary text-white hover:bg-[#3a4556] transition-colors font-medium shadow-sm">
                           <Download className="h-4 w-4 mr-2" />
                           Download Signed Document
                         </button>
@@ -164,9 +164,9 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
                     </div>
                   </div>
 
-                  <div className="mt-6 bg-white border border-gray-200 rounded-lg p-6">
+                  <div className="mt-6 bg-white border border-gray-200 p-6">
                     <h4 className="font-semibold text-gray-900 mb-3">Signature Preview</h4>
-                    <div className="border-2 border-gray-200 rounded-lg p-6 bg-gray-50">
+                    <div className="border-2 border-gray-200 p-6 bg-gray-50">
                       {signatureData.type === 'draw' ? (
                         <img
                           src={signatureData.data}
@@ -283,7 +283,7 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
                         value={comments}
                         onChange={(e) => setComments(e.target.value)}
                         placeholder="Add any additional comments or notes about this quote..."
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                        className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-archgrille-primary focus:border-archgrille-primary resize-none"
                         rows={2}
                       />
                     </div>
@@ -293,7 +293,7 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
                       <button
                         onClick={handleSubmitSignatureAndComments}
                         disabled={!signatureData || isSubmitting || !hasScrolledToBottom}
-                        className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2 shadow-sm"
+                        className="w-full bg-archgrille-primary text-white py-3 px-6 font-semibold hover:bg-[#3a4556] disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2 shadow-sm"
                       >
                         {isSubmitting ? (
                           <>
@@ -461,7 +461,7 @@ const InlineSignatureInterface: React.FC<InlineSignatureInterfaceProps> = ({
           onClick={() => handleModeSwitch('draw')}
           className={`flex items-center space-x-2 px-4 py-3 font-medium transition-colors border-b-2 ${
             signatureMode === 'draw'
-              ? 'border-blue-600 text-blue-600'
+              ? 'border-archgrille-primary text-archgrille-primary'
               : 'border-transparent text-gray-600 hover:text-gray-900'
           }`}
         >
@@ -472,7 +472,7 @@ const InlineSignatureInterface: React.FC<InlineSignatureInterfaceProps> = ({
           onClick={() => handleModeSwitch('type')}
           className={`flex items-center space-x-2 px-4 py-3 font-medium transition-colors border-b-2 ${
             signatureMode === 'type'
-              ? 'border-blue-600 text-blue-600'
+              ? 'border-archgrille-primary text-archgrille-primary'
               : 'border-transparent text-gray-600 hover:text-gray-900'
           }`}
         >
@@ -495,7 +495,7 @@ const InlineSignatureInterface: React.FC<InlineSignatureInterfaceProps> = ({
       <div className="space-y-4">
         {signatureMode === 'draw' ? (
           <div className="space-y-3">
-            <div className="border-2 border-gray-300 rounded-lg bg-white shadow-inner overflow-hidden">
+            <div className="border-2 border-gray-300 bg-white shadow-inner overflow-hidden">
               <canvas
                 ref={canvasRef}
                 width={800}
@@ -525,10 +525,10 @@ const InlineSignatureInterface: React.FC<InlineSignatureInterfaceProps> = ({
               value={typedSignature}
               onChange={(e) => handleTypedSignatureChange(e.target.value)}
               placeholder="Enter your full name"
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
+              className="w-full px-4 py-3 border-2 border-gray-300 focus:ring-2 focus:ring-archgrille-primary focus:border-archgrille-primary text-lg"
             />
             {typedSignature && (
-              <div className="border-2 border-gray-300 rounded-lg bg-gradient-to-br from-gray-50 to-white p-6 shadow-inner">
+              <div className="border-2 border-gray-300 bg-gradient-to-br from-gray-50 to-white p-6 shadow-inner">
                 <p className="text-3xl text-center text-gray-900 font-cursive">
                   {typedSignature}
                 </p>

@@ -4,7 +4,6 @@ import {
   FileText, 
   MessageSquare, 
   CheckCircle,
-  Building2,
   Mail,
   MapPin,
   Phone,
@@ -17,6 +16,7 @@ import {
 import { ApprovalSection } from './components/ApprovalSection';
 import { ShippingAddressUpdate } from './components/ShippingAddressUpdate';
 import { Step3ApprovalChoice } from './components/Step3ApprovalChoice';
+import { AGLogo } from './components/AGLogo';
 import { calculatePricing, requiresRecalculation, type PricingCalculation, type ShippingAddress } from './services/pricingCalculator';
 import { uploadCommentAttachments } from './services/salesforceApi';
 
@@ -921,14 +921,13 @@ function App() {
   const quoteExpired = isQuoteExpired(quoteData.createdDate);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-archgrille-secondary">
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              <Building2 className="h-8 w-8 text-blue-600" />
-              <span className="text-xl font-bold text-gray-900">AG</span>
+              <AGLogo color="dark" size="md" />
             </div>
           </div>
         </div>
@@ -937,8 +936,8 @@ function App() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         {/* Quote Header */}
-        <div className="bg-white rounded-lg shadow-sm border mb-8">
-          <div className="bg-blue-600 text-white px-6 py-4 rounded-t-lg">
+        <div className="bg-white shadow-sm border mb-8">
+          <div className="bg-archgrille-primary text-white px-6 py-4">
             <div className="flex justify-between items-center">
               <h1 className="text-xl font-semibold">Testing AC-1150</h1>
               <div className="text-sm">Quote #{quoteData.quoteNumber}</div>
@@ -960,7 +959,7 @@ function App() {
               {/* Status & Prepared By */}
               <div className="text-right space-y-3">
                 <div>
-                  <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800 mb-2">
+                  <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-archgrille-secondary text-archgrille-primary border border-archgrille-primary mb-2">
                     {quoteData.status}
                   </div>
                   {lastUpdated && (
@@ -977,7 +976,7 @@ function App() {
                     const expirationDate = getExpirationDate(quoteData.createdDate);
                     
                     const statusColors = {
-                      green: 'text-green-600',
+                      green: 'text-archgrille-primary',
                       yellow: 'text-yellow-600',
                       red: 'text-red-600'
                     };
@@ -1011,7 +1010,7 @@ function App() {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8 order-2 lg:order-1">
             {/* PDF Download Section */}
-            <div className="bg-white rounded-lg shadow-sm border p-6">
+            <div className="bg-white shadow-sm border p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h2 className="text-lg font-semibold text-gray-900 mb-2">1. Your Proposal</h2>
@@ -1019,7 +1018,7 @@ function App() {
                 </div>
               </div>
               <div className="flex flex-wrap gap-3">
-                <button className="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                <button className="inline-flex items-center px-4 py-2 bg-archgrille-primary text-white hover:bg-[#3a4556] transition-colors">
                   <Download className="h-4 w-4 mr-2" />
                   Download PDF
                 </button>
@@ -1027,7 +1026,7 @@ function App() {
             </div>
 
             {/* Line Items Table */}
-            <div className="bg-white rounded-lg shadow-sm border">
+            <div className="bg-white shadow-sm border">
               <div className="p-6 border-b">
                 <h2 className="text-lg font-semibold text-gray-900">2. Review Your Options</h2>
               </div>
@@ -1073,7 +1072,7 @@ function App() {
                                         setEditingCommentId(item.id);
                                         setTempComment(lineComment.comment);
                                       }}
-                                      className="text-xs text-blue-600 hover:text-blue-800 px-2 py-1 rounded border border-blue-200 hover:bg-blue-50"
+                                      className="text-xs text-archgrille-primary hover:text-[#3a4556] px-2 py-1 border border-archgrille-primary hover:bg-archgrille-secondary"
                                       title="Edit comment"
                                     >
                                       💬
@@ -1082,24 +1081,24 @@ function App() {
                                   {!isQuoteAccepted && !quoteExpired && step3Choice === 'changes' && !lineComment && (
                                     <button
                                       onClick={() => setEditingCommentId(item.id)}
-                                      className="text-xs text-gray-400 hover:text-blue-600 px-2 py-1 rounded border border-gray-200 hover:border-blue-200 hover:bg-blue-50"
+                                      className="text-xs text-gray-400 hover:text-archgrille-primary px-2 py-1 border border-gray-200 hover:border-archgrille-primary hover:bg-archgrille-secondary"
                                       title="Add comment"
                                     >
                                       💬
                                     </button>
                                   )}
                                   {!isQuoteAccepted && !quoteExpired && step3Choice !== 'changes' && (
-                                    <span className="text-xs text-gray-300 px-2 py-1 rounded border border-gray-200 bg-gray-50" title="Select 'I Need Changes' in Step 3 to add comments">
+                                    <span className="text-xs text-gray-300 px-2 py-1 border border-gray-200 bg-gray-50" title="Select 'I Need Changes' in Step 3 to add comments">
                                       💬
                                     </span>
                                   )}
                                   {(isQuoteAccepted || quoteExpired) && lineComment && (
-                                    <span className="text-xs text-gray-400 px-2 py-1 rounded border border-gray-200 bg-gray-50" title={quoteExpired ? "Comments disabled - quote expired" : "Comments disabled - quote accepted"}>
+                                    <span className="text-xs text-gray-400 px-2 py-1 border border-gray-200 bg-gray-50" title={quoteExpired ? "Comments disabled - quote expired" : "Comments disabled - quote accepted"}>
                                       💬
                                     </span>
                                   )}
                                   {!isQuoteAccepted && quoteExpired && !lineComment && (
-                                    <span className="text-xs text-gray-400 px-2 py-1 rounded border border-gray-200 bg-gray-50" title="Comments disabled - quote expired">
+                                    <span className="text-xs text-gray-400 px-2 py-1 border border-gray-200 bg-gray-50" title="Comments disabled - quote expired">
                                       💬
                                     </span>
                                   )}
@@ -1110,7 +1109,7 @@ function App() {
                           
                           {/* Expanded comment editing row */}
                           {isEditingThis && !isQuoteAccepted && !quoteExpired && step3Choice === 'changes' && (
-                            <tr className="bg-blue-50">
+                            <tr className="bg-archgrille-secondary">
                               <td className="px-3 py-2"></td>
                               <td colSpan={5} className="px-3 py-2">
                                 <div className="flex items-start space-x-3">
@@ -1118,20 +1117,20 @@ function App() {
                                     value={tempComment}
                                     onChange={(e) => setTempComment(e.target.value)}
                                     placeholder="Add your comment about this line item..."
-                                    className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                                    className="flex-1 px-3 py-2 text-sm border border-gray-300 focus:ring-1 focus:ring-archgrille-primary focus:border-archgrille-primary resize-none"
                                     rows={2}
                                     autoFocus
                                   />
                                   <div className="flex flex-col space-y-1">
                                     <button
                                       onClick={() => handleLineCommentSave(item.id)}
-                                      className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 whitespace-nowrap"
+                                      className="px-3 py-1 text-xs bg-archgrille-primary text-white hover:bg-[#3a4556] whitespace-nowrap"
                                     >
                                       Save
                                     </button>
                                     <button
                                       onClick={handleLineCommentCancel}
-                                      className="px-3 py-1 text-xs bg-gray-300 text-gray-700 rounded hover:bg-gray-400 whitespace-nowrap"
+                                      className="px-3 py-1 text-xs bg-gray-300 text-gray-700 hover:bg-gray-400 whitespace-nowrap"
                                     >
                                       Cancel
                                     </button>
@@ -1165,7 +1164,7 @@ function App() {
           {/* Sidebar - Quote Summary */}
           <div className="lg:col-span-1 space-y-6 order-1 lg:order-2">
             {/* Quote Summary */}
-            <div className="bg-white rounded-lg shadow-sm border p-6">
+            <div className="bg-white shadow-sm border p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Quote Summary</h3>
               
               <div className="space-y-3">
@@ -1188,7 +1187,7 @@ function App() {
                   </div>
                 </div>
                 {lastUpdated && (
-                  <div className="flex items-center mt-3 text-xs text-blue-600">
+                  <div className="flex items-center mt-3 text-xs text-archgrille-primary">
                     <RefreshCw className="h-3 w-3 mr-1" />
                     Pricing updated {lastUpdated.toLocaleDateString()}
                   </div>
@@ -1197,9 +1196,9 @@ function App() {
             </div>
 
             {/* Estimator Comments Section */}
-            <div className="bg-white rounded-lg shadow-sm border p-6">
+            <div className="bg-white shadow-sm border p-6">
               <div className="flex items-center space-x-2 mb-4">
-                <User className="h-5 w-5 text-blue-600" />
+                <User className="h-5 w-5 text-archgrille-primary" />
                 <h3 className="text-lg font-semibold text-gray-900">Estimator Comments</h3>
               </div>
               

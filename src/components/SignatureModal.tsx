@@ -123,8 +123,8 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between rounded-t-xl">
+      <div className="bg-white shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between">
           <h2 className="text-xl font-semibold text-gray-900">Sign Document</h2>
           <button
             onClick={onClose}
@@ -136,8 +136,8 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
         </div>
 
         <div className="p-6 space-y-6">
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <p className="text-sm text-blue-900">
+          <div className="bg-archgrille-secondary border border-gray-200 p-4">
+            <p className="text-sm text-gray-900">
               <span className="font-medium">Signing as:</span> {customerName}
             </p>
           </div>
@@ -147,7 +147,7 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
               onClick={() => handleModeSwitch('draw')}
               className={`flex items-center space-x-2 px-4 py-3 font-medium transition-colors border-b-2 ${
                 signatureMode === 'draw'
-                  ? 'border-blue-600 text-blue-600'
+                  ? 'border-archgrille-primary text-archgrille-primary'
                   : 'border-transparent text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -158,7 +158,7 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
               onClick={() => handleModeSwitch('type')}
               className={`flex items-center space-x-2 px-4 py-3 font-medium transition-colors border-b-2 ${
                 signatureMode === 'type'
-                  ? 'border-blue-600 text-blue-600'
+                  ? 'border-archgrille-primary text-archgrille-primary'
                   : 'border-transparent text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -173,7 +173,7 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
                 <label className="block text-sm font-medium text-gray-700">
                   Draw your signature below
                 </label>
-                <div className="border-2 border-gray-300 rounded-lg bg-white shadow-inner overflow-hidden">
+                <div className="border-2 border-gray-300 bg-white shadow-inner overflow-hidden">
                   <canvas
                     ref={canvasRef}
                     width={800}
@@ -203,15 +203,12 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
                   value={typedSignature}
                   onChange={(e) => handleTypedSignatureChange(e.target.value)}
                   placeholder="Enter your full name"
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
+                  className="w-full px-4 py-3 border-2 border-gray-300 focus:ring-2 focus:ring-archgrille-primary focus:border-archgrille-primary text-lg"
                   autoFocus
                 />
                 {typedSignature && (
-                  <div className="border-2 border-gray-300 rounded-lg bg-gradient-to-br from-gray-50 to-white p-8 shadow-inner">
-                    <p
-                      className="text-4xl text-center text-gray-900"
-                      style={{ fontFamily: 'Brush Script MT, cursive' }}
-                    >
+                  <div className="border-2 border-gray-300 bg-gradient-to-br from-gray-50 to-white p-8 shadow-inner">
+                    <p className="text-4xl text-center text-gray-900 font-cursive">
                       {typedSignature}
                     </p>
                   </div>
@@ -224,7 +221,7 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
             <button
               onClick={handleClear}
               disabled={!hasSignature}
-              className="flex items-center space-x-2 px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="flex items-center space-x-2 px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               <Trash2 className="h-4 w-4" />
               <span>Clear</span>
@@ -233,14 +230,14 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
             <div className="flex space-x-3">
               <button
                 onClick={onClose}
-                className="px-6 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                className="px-6 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirm}
                 disabled={!hasSignature}
-                className="flex items-center space-x-2 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+                className="flex items-center space-x-2 px-6 py-2 bg-archgrille-primary text-white hover:bg-[#3a4556] disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
               >
                 <Check className="h-4 w-4" />
                 <span>Confirm Signature</span>
