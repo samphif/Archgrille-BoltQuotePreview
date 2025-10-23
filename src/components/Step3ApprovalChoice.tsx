@@ -133,32 +133,32 @@ export const Step3ApprovalChoice: React.FC<Step3ApprovalChoiceProps> = ({
             Choose one option below:
           </p>
           
-          <div className="space-y-3">
-            <button
-              onClick={() => setStep3Choice('changes')}
-              className="w-full p-4 border-2 border-gray-200 hover:border-archgrille-primary hover:bg-archgrille-secondary transition-colors text-left"
-            >
-              <div className="flex items-center space-x-3">
-                <Edit3 className="h-5 w-5 text-archgrille-primary" />
-                <div>
-                  <div className="font-medium text-gray-900">I Need Changes</div>
-                  <div className="text-sm text-gray-600">Request modifications to the quote</div>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <button
+                onClick={() => setStep3Choice('changes')}
+                className="w-full px-4 py-2 bg-archgrille-primary text-white hover:bg-[#3a4556] transition-colors text-left"
+              >
+                <div className="flex items-center space-x-3">
+                  <Edit3 className="h-5 w-5 text-white" />
+                  <div className="font-medium text-white">I Need Changes</div>
                 </div>
-              </div>
-            </button>
+              </button>
+              <p className="text-sm text-gray-600 pl-8">Request modifications to the quote</p>
+            </div>
             
-            <button
-              onClick={() => setStep3Choice('sign')}
-              className="w-full p-4 border-2 border-gray-200 hover:border-archgrille-primary hover:bg-archgrille-secondary transition-colors text-left"
-            >
-              <div className="flex items-center space-x-3">
-                <PenTool className="h-5 w-5 text-archgrille-primary" />
-                <div>
-                  <div className="font-medium text-gray-900">No Changes Needed - Ready to Sign</div>
-                  <div className="text-sm text-gray-600">Accept the quote as-is</div>
+            <div className="space-y-2">
+              <button
+                onClick={() => setStep3Choice('sign')}
+                className="w-full px-4 py-2 bg-archgrille-primary text-white hover:bg-[#3a4556] transition-colors text-left"
+              >
+                <div className="flex items-center space-x-3">
+                  <PenTool className="h-5 w-5 text-white" />
+                  <div className="font-medium text-white">No Changes - Ready to Sign</div>
                 </div>
-              </div>
-            </button>
+              </button>
+              <p className="text-sm text-gray-600 pl-8">Accept the quote as-is</p>
+            </div>
           </div>
         </div>
       </div>

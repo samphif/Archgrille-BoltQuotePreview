@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { PenTool, CheckCircle, Download, X, ArrowLeft, Type, Trash2 } from 'lucide-react';
 import { SignatureModal } from './SignatureModal';
 
@@ -91,8 +92,8 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
     onBack();
   };
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  return createPortal(
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
       <div className="bg-white w-full h-full max-w-4xl mx-auto flex flex-col">
         {/* Modal Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
@@ -373,7 +374,8 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
         onConfirm={handleSignatureConfirm}
         customerName={quoteData.customer.name}
       />
-    </div>
+    </div>,
+    document.body
   );
 };
 

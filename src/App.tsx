@@ -1,23 +1,14 @@
 import React, { useState } from 'react';
 import { 
   Download, 
-  FileText, 
   MessageSquare, 
-  CheckCircle,
-  Mail,
-  MapPin,
-  Phone,
   RefreshCw,
-  Image,
-  User,
-  Paperclip,
-  X
+  User
 } from 'lucide-react';
-import { ApprovalSection } from './components/ApprovalSection';
-import { ShippingAddressUpdate } from './components/ShippingAddressUpdate';
 import { Step3ApprovalChoice } from './components/Step3ApprovalChoice';
 import { AGLogo } from './components/AGLogo';
-import { calculatePricing, requiresRecalculation, type PricingCalculation, type ShippingAddress } from './services/pricingCalculator';
+import { ReferenceSection } from './components/ReferenceSection';
+import { type ShippingAddress } from './services/pricingCalculator';
 import { uploadCommentAttachments } from './services/salesforceApi';
 
 interface LineItemComment {
@@ -61,13 +52,11 @@ function App() {
   const [comment, setComment] = useState('');
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
   const [commentSubmitted, setCommentSubmitted] = useState(false);
-  const [isUpdatingAddress, setIsUpdatingAddress] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [lineComments, setLineComments] = useState<LineItemComment[]>([]);
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [tempComment, setTempComment] = useState('');
   const [isQuoteAccepted, setIsQuoteAccepted] = useState(false);
-  const [selectedAction, setSelectedAction] = useState<'comments' | 'signature'>('signature');
   const [attachedFiles, setAttachedFiles] = useState<File[]>([]);
   const [fileError, setFileError] = useState<string | null>(null);
   const [step3Choice, setStep3Choice] = useState<'changes' | 'sign' | null>(null);
@@ -143,8 +132,7 @@ function App() {
       setComment('');
       setAttachedFiles([]);
       setFileError(null);
-      // Permanently disable signature option after comments are submitted
-      setSelectedAction('comments');
+      // Comments submitted - signature option is now disabled
       
       // Reset success message after 3 seconds
       setTimeout(() => setCommentSubmitted(false), 3000);
@@ -155,51 +143,6 @@ function App() {
     }
   };
 
-  const handleAddressUpdate = async (newAddress: ShippingAddress) => {
-    const oldAddress = quoteData.customer.address;
-    
-    if (!requiresRecalculation(oldAddress, newAddress)) {
-      // Just update address without recalculation
-      setQuoteData(prev => ({
-        ...prev,
-        customer: {
-          ...prev.customer,
-          address: newAddress
-        }
-      }));
-      setLastUpdated(new Date());
-      return;
-    }
-
-    setIsUpdatingAddress(true);
-    
-    try {
-      // Recalculate pricing based on new address
-      const newPricing = await calculatePricing(quoteData.lineItems, newAddress);
-      
-      // Update quote data with new address and pricing
-      setQuoteData(prev => ({
-        ...prev,
-        customer: {
-          ...prev.customer,
-          address: newAddress
-        },
-        financials: {
-          subtotal: newPricing.subtotal,
-          tax: newPricing.tax,
-          freight: newPricing.freight,
-          grandTotal: newPricing.grandTotal
-        }
-      }));
-      
-      setLastUpdated(new Date());
-    } catch (error) {
-      console.error('Failed to update address and recalculate pricing:', error);
-      throw error;
-    } finally {
-      setIsUpdatingAddress(false);
-    }
-  };
 
   const handleLineCommentSave = async (lineItemId: number) => {
     if (!tempComment.trim() || isQuoteAccepted || quoteExpired) return;
@@ -386,18 +329,27 @@ function App() {
                 <h2 className="text-lg font-semibold text-gray-900">2. Review Your Options</h2>
               </div>
               
+              {/* Sticky Header */}
+              <div className="sticky top-0 z-10 bg-gray-50 border-b">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr>
+                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12">Line</th>
+                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-16">Qty</th>
+                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32">Product</th>
+                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-48">Description</th>
+                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-20">Unit Price</th>
+                        <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-20">Amount</th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
+              
+              {/* Scrollable Table Body */}
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12">Line</th>
-                      <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-16">Qty</th>
-                      <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32">Product</th>
-                      <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-48">Description</th>
-                      <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-20">Unit Price</th>
-                      <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-20">Amount</th>
-                    </tr>
-                  </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
                     {quoteData.lineItems.map((item, index) => {
                       const lineComment = getLineComment(item.id);
@@ -406,21 +358,21 @@ function App() {
                       return (
                         <React.Fragment key={item.id}>
                           <tr className="hover:bg-gray-50">
-                            <td className="px-3 py-4 text-sm text-gray-900 text-center">
+                            <td className="px-3 py-4 text-sm text-gray-900 text-center w-12">
                               {index + 1}
                             </td>
-                            <td className="px-3 py-4 text-sm text-gray-900 text-center">{item.quantity}</td>
-                            <td className="px-3 py-4 text-sm text-gray-900">
+                            <td className="px-3 py-4 text-sm text-gray-900 text-center w-16">{item.quantity}</td>
+                            <td className="px-3 py-4 text-sm text-gray-900 w-32">
                               <div>
                                 <div>{item.product}</div>
                                 <div className="text-sm text-gray-600 mt-1">{item.dimensions}</div>
                               </div>
                             </td>
-                            <td className="px-3 py-4 text-sm text-gray-600">
+                            <td className="px-3 py-4 text-sm text-gray-600 w-48">
                               <div className="whitespace-pre-line text-sm leading-tight">{item.description}</div>
                             </td>
-                            <td className="px-3 py-4 text-sm text-gray-900 text-left">{formatCurrency(item.unitPrice)}</td>
-                            <td className="pl-3 pr-0 py-4 text-sm text-gray-900 text-left">
+                            <td className="px-3 py-4 text-sm text-gray-900 text-left w-20">{formatCurrency(item.unitPrice)}</td>
+                            <td className="pl-3 pr-0 py-4 text-sm text-gray-900 text-left w-20">
                               <div className="flex items-center justify-between">
                                 <span>{formatCurrency(item.totalPrice)}</span>
                                 <div className="pr-3">
@@ -554,6 +506,9 @@ function App() {
                 {quoteData.estimator.comments}
               </p>
             </div>
+
+            {/* Reference Section */}
+            <ReferenceSection />
 
             {/* Step 3 - Next Steps (both designs) */}
             <Step3ApprovalChoice
