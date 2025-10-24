@@ -87,7 +87,7 @@ export const Step3ApprovalChoice: React.FC<Step3ApprovalChoiceProps> = ({
           </div>
           <h3 className="text-xl font-semibold text-gray-900 mb-2">Quote Accepted!</h3>
           <p className="text-gray-700 mb-4">
-            Thank you for accepting this quote. Your order has been submitted and our team will be in touch shortly.
+            Thank you for accepting this quote. Your order has been submitted and our team will be in touch shortly. A copy of your signed quote has been sent to <strong>{quoteData.customer.email}</strong>.
           </p>
           <div className="text-sm text-gray-600 bg-archgrille-secondary p-3 inline-block">
             <strong>Signed on:</strong> {new Date().toLocaleDateString()} at {new Date().toLocaleTimeString()}

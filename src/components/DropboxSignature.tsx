@@ -58,11 +58,15 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
   };
 
   const handleInlineSignature = (data: string, type: 'draw' | 'type') => {
-    setSignatureData({
-      data,
-      type,
-      timestamp: new Date()
-    });
+    if (data.trim().length === 0) {
+      setSignatureData(null);
+    } else {
+      setSignatureData({
+        data,
+        type,
+        timestamp: new Date()
+      });
+    }
   };
 
   const handleSubmitSignatureAndComments = async () => {
@@ -262,7 +266,7 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
                   </div>
                   
                   {/* Technical Considerations Checkbox */}
-                  <div className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                  <div className="mt-6 p-4 bg-gray-50 border border-gray-200">
                     <label className="flex items-start space-x-3 cursor-pointer">
                       <input
                         type="checkbox"
@@ -285,7 +289,7 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
                   </p>
                   
                   {/* Terms and Conditions Checkbox */}
-                  <div className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                  <div className="mt-6 p-4 bg-gray-50 border border-gray-200">
                     <label className="flex items-start space-x-3 cursor-pointer">
                       <input
                         type="checkbox"
@@ -304,11 +308,35 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
                 {hasScrolledToBottom && (
                   <div className="border-t border-gray-200 pt-8">
                     
-                    {/* Inline Signature Interface */}
-                    <InlineSignatureInterface
-                      onSignature={handleInlineSignature}
-                      customerName={quoteData.customer.name}
-                    />
+                    {/* Validation Message - moved above signature block */}
+                    {(!techConsiderationsAccepted || !termsAccepted) && (
+                      <div className="mb-6 p-3 bg-yellow-50 border border-yellow-200">
+                        <p className="text-sm text-yellow-800">
+                          <strong>Required:</strong> Please check both agreement boxes above to submit your signature.
+                          {!techConsiderationsAccepted && <span className="block mt-1">• Technical Considerations agreement required</span>}
+                          {!termsAccepted && <span className="block mt-1">• Terms and Conditions agreement required</span>}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Inline Signature Interface - with locked state */}
+                    {!techConsiderationsAccepted || !termsAccepted ? (
+                      <div className="space-y-3">
+                        <div className="opacity-50 pointer-events-none">
+                          <InlineSignatureInterface
+                            onSignature={handleInlineSignature}
+                            customerName={quoteData.customer.name}
+                            disabled={true}
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <InlineSignatureInterface
+                        onSignature={handleInlineSignature}
+                        customerName={quoteData.customer.name}
+                        disabled={false}
+                      />
+                    )}
 
                     {/* Comments Section */}
                     <div className="mt-8">
@@ -323,17 +351,6 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
 
                     {/* Submit Button */}
                     <div className="mt-6">
-                      {/* Requirements Helper Text */}
-                      {(!techConsiderationsAccepted || !termsAccepted) && (
-                        <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                          <p className="text-sm text-yellow-800">
-                            <strong>Required:</strong> Please check both agreement boxes above to submit your signature.
-                            {!techConsiderationsAccepted && <span className="block mt-1">• Technical Considerations agreement required</span>}
-                            {!termsAccepted && <span className="block mt-1">• Terms and Conditions agreement required</span>}
-                          </p>
-                        </div>
-                      )}
-                      
                       <button
                         onClick={handleSubmitSignatureAndComments}
                         disabled={!signatureData || isSubmitting || !hasScrolledToBottom || !techConsiderationsAccepted || !termsAccepted}
@@ -383,11 +400,13 @@ export const DropboxSignature: React.FC<DropboxSignatureProps> = ({
 interface InlineSignatureInterfaceProps {
   onSignature: (data: string, type: 'draw' | 'type') => void;
   customerName: string;
+  disabled: boolean;
 }
 
 const InlineSignatureInterface: React.FC<InlineSignatureInterfaceProps> = ({
   onSignature,
-  customerName
+  customerName,
+  disabled
 }) => {
   const [signatureMode, setSignatureMode] = useState<'draw' | 'type'>('draw');
   const [typedSignature, setTypedSignature] = useState('');
@@ -467,6 +486,7 @@ const InlineSignatureInterface: React.FC<InlineSignatureInterfaceProps> = ({
       setTypedSignature('');
       setHasSignature(false);
     }
+    onSignature('', signatureMode);
   };
 
   const handleModeSwitch = (mode: 'draw' | 'type') => {
