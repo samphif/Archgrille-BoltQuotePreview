@@ -134,8 +134,7 @@ function App() {
       setFileError(null);
       // Comments submitted - signature option is now disabled
       
-      // Reset success message after 3 seconds
-      setTimeout(() => setCommentSubmitted(false), 3000);
+      // Success message now stays visible permanently
     } catch (error) {
       console.error('Failed to submit comment:', error);
       setIsSubmittingComment(false);
