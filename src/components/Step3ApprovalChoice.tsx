@@ -137,11 +137,11 @@ export const Step3ApprovalChoice: React.FC<Step3ApprovalChoiceProps> = ({
             <div className="space-y-2">
               <button
                 onClick={() => setStep3Choice('changes')}
-                className="w-full px-4 py-2 bg-archgrille-primary text-white hover:bg-[#3a4556] transition-colors text-left"
+                className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-300 hover:bg-gray-50 transition-colors text-left"
               >
                 <div className="flex items-center space-x-3">
-                  <Edit3 className="h-5 w-5 text-white" />
-                  <div className="font-medium text-white">I Need Changes</div>
+                  <Edit3 className="h-5 w-5 text-gray-900" />
+                  <div className="font-medium text-gray-900">I Need Changes</div>
                 </div>
               </button>
               <p className="text-sm text-gray-600 pl-8">Request modifications to the quote</p>
